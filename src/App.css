@@ -1,0 +1,103 @@
+/* Container */
+.container {
+  padding: 2rem 1rem;
+  font-family: sans-serif;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Responsive Form Grid */
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem 2rem;
+  margin-bottom: 2rem;
+  align-items: end;
+}
+
+/* Form Labels */
+form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+/* Input and Select Styling */
+form input,
+form select {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button Container to Center Button */
+.button-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Form Button Styling */
+form button,
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Hover effect for buttons */
+form button:hover,
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Sort and Filter Grid */
+.sort-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.sort-filter label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+.sort-filter input,
+.sort-filter select {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* College List */
+ul.college-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  max-width: 1000px;
+  margin: 1rem auto;
+  justify-content: center;
+}
+
+/* Individual College List Items */
+ul.college-list li {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
