@@ -15,7 +15,7 @@ function SortFilter({ sortBy, setSortBy, searchText, setSearchText }) {
         Search:
         <input
           type="text"
-          placeholder="Search by name or branch"
+          placeholder="Search by college name or branch"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />

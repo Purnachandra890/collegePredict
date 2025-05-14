@@ -3,7 +3,7 @@ import collegeData from "./collegeData";
 import SortFilter from "./components/SortFilter";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ResultSummary from "./components/ResultSummary";
-import "./App.css"; // Import the CSS file
+import "./App.css";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -17,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,7 +46,6 @@ function App() {
         return userRank <= casteRanks[gender];
       });
 
-      // Apply text search
       if (searchText.trim() !== "") {
         matched = matched.filter(
           (college) =>
@@ -56,19 +56,33 @@ function App() {
         );
       }
 
-      // Sort if selected
       if (sortBy) {
         matched.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
       }
 
       setResults(matched);
+      setExpandedIndex(null);
       setLoading(false);
-    }, 500); // Simulate load delay
+    }, 500);
+  };
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(index === expandedIndex ? null : index);
   };
 
   return (
     <div className="container">
-      <h1>🎓 College Predictor</h1>
+      <h1>
+        <img
+          src="/logo.png"
+          alt="College Predictor Logo"
+          width="50"
+          height="50"
+          style={{ verticalAlign: "middle", marginRight: 8 }}
+        />
+        College Predictor
+      </h1>
+
       <form onSubmit={handleSubmit}>
         <label>
           Phase:
@@ -124,6 +138,10 @@ function App() {
         searchText={searchText}
         setSearchText={setSearchText}
       />
+      <p style={{ color: "gray", fontSize: "0.9rem", marginTop: "0.5rem" }}>
+        ℹ️ After changing sort or search options, please click{" "}
+        <strong>"Check Colleges"</strong> again to see updated results.
+      </p>
 
       {loading ? (
         <LoadingSpinner />
@@ -138,16 +156,132 @@ function App() {
             <ul className="college-list">
               {results.map((college, idx) => {
                 const casteRanks = college.ranks[formData.caste];
-                const rankForGender = casteRanks
-                  ? formData.gender === "girls"
-                    ? casteRanks.girlsOu
-                    : casteRanks.genOu
-                  : null;
+                const rankForGender =
+                  formData.caste === "ews"
+                    ? formData.gender === "girls"
+                      ? casteRanks?.girlsOu
+                      : casteRanks?.genOu
+                    : casteRanks?.[formData.gender];
+
                 return (
-                  <li key={idx}>
-                    <strong>{college.instituteName}</strong> —{" "}
-                    {college.branchName}
-                    {rankForGender && <span> (Rank: {rankForGender})</span>}
+                  // <li key={idx}>
+                  //   <div
+                  //     onClick={() => toggleExpand(idx)}
+                  //     title="Click to view more details"
+                  //     style={{
+                  //       cursor: "pointer",
+                  //       padding: "12px",
+                  //       border: "1px solid #ccc",
+                  //       borderRadius: "8px",
+                  //       background: "#f9f9f9",
+                  //       marginBottom: "8px",
+                  //       position: "relative",
+                  //     }}
+                  //   >
+                  //     <div>
+                  //       <strong>{college.instituteName}</strong> —{" "}
+                  //       {college.branchName}
+                  //     </div>
+                  //     <div
+                  //       style={{
+                  //         position: "absolute",
+                  //         right: 12,
+                  //         bottom: 10,
+                  //         color: "#555",
+                  //         fontSize: "0.9rem",
+                  //       }}
+                  //     >
+                  //       {expandedIndex === idx ? "▲ Hide Details" : "▼ Details"}
+                  //     </div>
+                  //   </div>
+
+                  //   {expandedIndex === idx && (
+                  //     <div
+                  //       style={{
+                  //         background: "#f0f8ff",
+                  //         border: "1px solid #d0d0d0",
+                  //         borderRadius: "6px",
+                  //         padding: "12px",
+                  //         marginTop: "6px",
+                  //         marginBottom: "12px",
+                  //       }}
+                  //     >
+                  //       <p><strong>Tuition Fee:</strong> ₹{college.tuitionFee}</p>
+                  //       <p><strong>Affiliated To:</strong> {college.affiliatedTo}</p>
+                  //       <p><strong>Place:</strong> {college.place}</p>
+                  //       <p><strong>District Code:</strong> {college.distCode}</p>
+                  //       <p><strong>Co-Education:</strong> {college.coEducation}</p>
+                  //       <p><strong>College Type:</strong> {college.collegeType}</p>
+                  //       <p><strong>Year of Establishment:</strong> {college.yearOfEstab}</p>
+                  //       <p><strong>Branch Code:</strong> {college.branchCode}</p>
+                  //       <p><strong>Eligible Rank:</strong> {rankForGender}</p>
+                  //     </div>
+                  //   )}
+                  // </li>
+                  <li key={idx} className="college-item">
+                    <div
+                      className="college-header"
+                      onClick={() => toggleExpand(idx)}
+                      title="Click to view more details"
+                    >
+                      <strong>{college.instituteName}</strong>
+                      {" — "}
+                      {college.branchName}
+                    </div>
+
+                    <div
+                      className="college-toggle"
+                      onClick={() => toggleExpand(idx)}
+                      title="Click to view more details"
+                    >
+                      <span className="toggle-icon">
+                        {expandedIndex === idx ? "▲" : "▼"}
+                      </span>
+                      <span className="toggle-text"></span>
+                      {expandedIndex === idx ? "Hide Details" : "Details"}
+                    </div>
+
+                    {expandedIndex === idx && (
+                      <div
+                        style={{
+                          background: "#f0f8ff",
+                          border: "1px solid #d0d0d0",
+                          borderRadius: "6px",
+                          padding: "12px",
+                          marginTop: "6px",
+                          marginBottom: "12px",
+                        }}
+                      >
+                        <p>
+                          <strong>Tuition Fee:</strong> ₹{college.tuitionFee}
+                        </p>
+                        <p>
+                          <strong>Affiliated To:</strong> {college.affiliatedTo}
+                        </p>
+                        <p>
+                          <strong>Place:</strong> {college.place}
+                        </p>
+                        <p>
+                          <strong>District Code:</strong> {college.distCode}
+                        </p>
+                        <p>
+                          <strong>Co-Education:</strong> {college.coEducation}
+                        </p>
+                        <p>
+                          <strong>College Type:</strong> {college.collegeType}
+                        </p>
+                        <p>
+                          <strong>Year of Establishment:</strong>{" "}
+                          {college.yearOfEstab}
+                        </p>
+                        <p>
+                          <strong>Branch Code:</strong> {college.branchCode}
+                        </p>
+                        <p>
+                          <strong>Eligible Rank:</strong> {rankForGender}
+                        </p>
+                      </div>
+                    )}
                   </li>
                 );
               })}
