@@ -11,7 +11,7 @@ function SortFilter({ sortBy, setSortBy, searchText, setSearchText }) {
         </select>
       </label>
 
-      <label>
+      {/* <label>
         Search:
         <input
           type="text"
@@ -19,7 +19,7 @@ function SortFilter({ sortBy, setSortBy, searchText, setSearchText }) {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-      </label>
+      </label> */}
     </div>
   );
 }
