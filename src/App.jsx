@@ -492,6 +492,7 @@ function App() {
               IBRAHIMPATAN / IBRAHIMPATNAM
             </option>
             <option value="JAGITIAL">JAGITIAL</option>
+            <option value="KUKATPALLY">KUKATPALLY</option>
             <option value="KAMAREDDY">KAMAREDDY</option>
             <option value="KANDLAKOYA">KANDLAKOYA</option>
             <option value="KARIMNAGAR">KARIMNAGAR</option>
