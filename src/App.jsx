@@ -80,7 +80,7 @@ function App() {
           height="50"
           style={{ verticalAlign: "middle", marginRight: 8 }}
         />
-        College Predictor
+        TS EAMCET College Predictor
       </h1>
 
       <form onSubmit={handleSubmit}>
